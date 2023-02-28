@@ -62,7 +62,7 @@ public:
 		return side;
 	}
 	
-	void make_show_sqr()  // вывод на экран
+	void print()  // вывод на экран
 	{
 		square_p();
 		std::cout << "P of square: " << square_p() << std::endl;
@@ -95,7 +95,7 @@ public:
 		return (((side * side) * sqrt(3)) / 4);
 	}
 
-	void make_show_trian()  // вывод на экран
+	void print()  // вывод на экран
 	{
 		triangle_p();
 		std::cout << "P of triangle: " << triangle_p() << std::endl;
@@ -128,7 +128,7 @@ public:
 		return (side * (side * 2));
 	}
 
-	void make_show_rect()  // вывод на экран
+	void print()  // вывод на экран
 	{
 		rectangle_p();
 		std::cout << "P of rectangle: " << rectangle_p() << std::endl;
@@ -162,7 +162,7 @@ public:
 		return ((M_PI * pow(side,2)) / 4);
 	}
 
-	void make_show_circle()  // вывод на экран
+	void print()  // вывод на экран
 	{
 		circle_p();
 		std::cout << "P of circle: " << circle_p() << std::endl;
@@ -220,22 +220,22 @@ int main()
 	std::cout << "Square:\n";
 	Square sqr(x);  // создание объекта класса Квадрат,
 	                // инициализация полем класса Фигура
-	sqr.make_show_sqr();
+	sqr.print();
 
 	std::cout << "Triangle:\n";
 	Triangle trian(x);  // создание объекта класса Треугольник
 	                    // инициализация полем класса Фигура
-	trian.make_show_trian();
+	trian.print();
 
 	std::cout << "Rectangle:\n";
 	Rectangle rect(x);  // создание объекта класса Прямоугольник
 	                    // инициализация полем класса Фигура
-	rect.make_show_rect();
+	rect.print();
 
 	std::cout << "Circle:\n";
 	Circle circ(x);  // создание объекта класса Круг
 	                 // инициализация полем класса Фигура
-	circ.make_show_circle();
+	circ.print();
 
 	std::cout << "Circle in square? \n";
 	Circle_in_Sqr circ_in_sqr(2);  // создание объекта класса Круг_в_Квадрате
@@ -251,3 +251,73 @@ int main()
 
 	return 0;	
 }
+
+// задача 2
+
+class Sqr  // базовый класс квадрат
+{
+protected:
+	float side;
+public:
+	Sqr() : side{ 0 } {}
+	Sqr(float sideP) : side{sideP} {}
+
+	float get_side()
+	{
+		return side;
+	}
+
+};
+
+class Circ  // базовый класс круг
+{
+protected:
+	float diam;
+public:
+	Circ() : diam{ 0 } {}
+	Circ(float diamP) : diam{ diamP } {}
+
+	float get_diam()
+	{
+		return diam;
+	}
+
+};
+
+class Circ_in_Sqr : public Sqr, public Circ  // класс-наследник классов Квадрат и Круг
+{
+public:
+	Circ_in_Sqr() : Sqr(), Circ() {}
+	Circ_in_Sqr(float side, float diam) : Sqr(side), Circ(diam) {}
+
+	bool fit_into(Sqr obj1, Circ obj2)
+	{
+		if (obj1.get_side() == obj2.get_diam())  // если диаметр = стороне квадрата
+			return true;                         // то объект Circle_in_Sqr вписывается в Square
+		else
+			return false;
+	}
+
+};
+
+int main2()
+{
+	Sqr sqr(4);
+	Circ circ(3);
+
+	Circ_in_Sqr res_ob;
+
+	if (res_ob.fit_into(sqr, circ) == true)
+	{
+		std::cout << "Yes\n";
+	}
+	else
+	{
+		std::cout << "No\n";
+	}
+	
+	return 0;
+
+}
+
+
